@@ -1,1 +1,1 @@
-export const DB_NAME = "ballotbox"
+export const DB_NAME = "electionbox"
