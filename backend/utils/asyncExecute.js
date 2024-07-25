@@ -1,6 +1,6 @@
 const asyncExe = (fn) => async (req,res,next) => {
     try {
-        await fn(req,req,next)
+        await fn(req,res,next)
     } catch (err) {
         res.status(err.code || 501).json({
             success: false,
