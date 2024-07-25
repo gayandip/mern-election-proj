@@ -15,39 +15,36 @@ const userSchema = new Schema(
             required: true
         },
         fullName: {
-            type: String,
-            required: true
+            type: String
         },
         address: {
-            type: String,
-            required: true
+            type: String
         },
         constituency: {
-            type: String,
-            required: true
+            type: String
         },
         image: {
-            type: String,
-            required: true
+            type: String
         },
         adhaar: {
-            type: String,
-            required: true
-        },
-        fatherName: {
-            type: String,
-            required: true
+            type: String
         },
         gender: {
-            type: String,
-            required: true
+            type: String
         },
         dateOfBirth: {
+            type: String
+        },
+        status: {
             type: String,
-            required: true
+            default: ""
         },
         cardId: {
+            type: String
+        },
+        userType: {
             type: String,
+            default: "user"
         }
     },
     
@@ -64,7 +61,7 @@ userSchema.pre("save", async function(next) {
 })
 
 userSchema.pre("save", function(next) {
-    if(!(this.cardId  == "")) return next();
+    if(!(this.status  == "verified")) return next();
 
     str =""
     function gen() {
