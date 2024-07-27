@@ -1,15 +1,18 @@
 import mongoose, {Schema} from "mongoose";
-import aggregatePaginate from "mongoose-aggregate-paginate-v2"
 
 const candidateSchema = new Schema(
     {
-        fullName: {
+        card: {
             type: Schema.Types.ObjectId,
             ref: "Card"
         },
+        fullName: {
+            type: String,
+            required: true
+        },
         address: {
-            type: Schema.Types.ObjectId,
-            ref: "Card"
+            type: String,
+            required: true
         },
         constituencyType: {
             type: String,
@@ -20,16 +23,16 @@ const candidateSchema = new Schema(
             required: true
         },
         image: {
-            type: Schema.Types.ObjectId,
-            ref: "Card"
+            type: String,
+            required: true
         },
         netWorth: {
             type: String,
             required: true
         },
         gender: {
-            type: Schema.Types.ObjectId,
-            ref: "Card"
+            type: String,
+            required: true
         },
         party: {
             type: String,
@@ -42,20 +45,12 @@ const candidateSchema = new Schema(
         status: {
             type: String,
             default: "processing"
-        },
-        votes: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Card"
-            }
-        ]
+        }
     },
     
     {
         timestamps: true
     }
 )
-
-candidateSchema.plugin(aggregatePaginate);
 
 export const Candidate = mongoose.model("Candidate",candidateSchema)

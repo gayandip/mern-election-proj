@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 const cardSchema = new Schema(
     {
-        email: {
+        user: {
             type: Schema.Types.ObjectId,
             ref: "User"
         },
@@ -19,6 +19,10 @@ const cardSchema = new Schema(
             required: true
         },
         parlamentConstituency: {
+            type: String,
+            required: true
+        },
+        aadhar: {
             type: String,
             required: true
         },
