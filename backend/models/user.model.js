@@ -6,41 +6,11 @@ const userSchema = new Schema(
         email: {
             type: String,
             required: true,
-            unique: true,
-            lowercase: true,
             index: true
         },
         password: {
             type: String,
             required: true
-        },
-        fullName: {
-            type: String
-        },
-        address: {
-            type: String
-        },
-        constituency: {
-            type: String
-        },
-        image: {
-            type: String
-        },
-        adhaar: {
-            type: String
-        },
-        gender: {
-            type: String
-        },
-        dateOfBirth: {
-            type: String
-        },
-        status: {
-            type: String,
-            default: ""
-        },
-        cardId: {
-            type: String
         },
         userType: {
             type: String,
@@ -60,30 +30,7 @@ userSchema.pre("save", async function(next) {
     next()
 })
 
-userSchema.pre("save", function(next) {
-    if(!(this.status  == "verified")) return next();
 
-    str =""
-    function gen() {
-        str1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        str2 = "123456789"
-        
-        for (let i = 0; i < 7; i++) {
-             if (i<3) {
-                let p = Math.round(Math.random()*26)
-                str += str1[p]
-            } else {
-                let p = Math.round(Math.random()*9)
-                str += str2[p]
-            }
-        }
-    }
-
-    gen()
-    
-    this.cardId = str;
-    next()
-})
 
 userSchema.methods.checkPassword = async function(password){
     await bcrypt.compare(password, this.password)

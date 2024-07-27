@@ -5,19 +5,23 @@ const candidateSchema = new Schema(
     {
         fullName: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "Card"
         },
         address: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "Card"
         },
-        constituency: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
+        constituencyType: {
+            type: String,
+            required: true
+        },
+        constituencyName: {
+            type: String,
+            required: true
         },
         image: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "Card"
         },
         netWorth: {
             type: String,
@@ -25,7 +29,7 @@ const candidateSchema = new Schema(
         },
         gender: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref: "Card"
         },
         party: {
             type: String,
@@ -35,10 +39,14 @@ const candidateSchema = new Schema(
             type: String,
             required: true
         },
+        status: {
+            type: String,
+            default: "processing"
+        },
         votes: [
             {
                 type: Schema.Types.ObjectId,
-                ref: "User"
+                ref: "Card"
             }
         ]
     },

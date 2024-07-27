@@ -6,8 +6,6 @@ const adminSchema = new Schema(
         email: {
             type: String,
             required: true,
-            unique: true,
-            lowercase: true,
             index: true
         },
         password: {
@@ -36,10 +34,11 @@ adminSchema.pre("save", async function(next) {
     next()
 })
 
-adminSchema.pre("save", function () {
+adminSchema.pre("save", function (next) {
     if (this.email.includes("@eci.in")) {
         this.flag = "true"
     }
+    next()
 })
 
 adminSchema.methods.checkPassword = async function(password){
