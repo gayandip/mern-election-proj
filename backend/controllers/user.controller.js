@@ -14,18 +14,19 @@ const registerUser = asyncExe(async (req, res) => {
     // check for user response comming or not, means user created or not
 
     const {email, password} = req.body
+
     
     if ([email, password].some((field) => field?.trim() === "")) {
         throw new apiError(400, "empty any one of register field")
     }
 
-    const exUser = User.findOne({email})
+    const exUser = await User.findOne({email})
     if (exUser) {
         throw new apiError(401, "user already exist");
     }
 
     const user = await User.create({
-        email,
+        email : email.toLowerCase(),
         password
     })
 
@@ -38,6 +39,8 @@ const registerUser = asyncExe(async (req, res) => {
     res.status(201).json(
         new ApiResponse(200, createdUser, "user registered successfully")
     )
+
+    user.save()
 })
 
 export {registerUser}
