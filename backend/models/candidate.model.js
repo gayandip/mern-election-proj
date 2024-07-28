@@ -2,35 +2,16 @@ import mongoose, {Schema} from "mongoose";
 
 const candidateSchema = new Schema(
     {
-        card: {
-            type: Schema.Types.ObjectId,
-            ref: "Card"
-        },
-        fullName: {
-            type: String,
-            required: true
-        },
-        address: {
-            type: String,
-            required: true
-        },
         constituencyType: {
             type: String,
-            required: true
+            required: true,
+            enum: ["assembly", "parlament"]
         },
         constituencyName: {
             type: String,
             required: true
         },
-        image: {
-            type: String,
-            required: true
-        },
         netWorth: {
-            type: String,
-            required: true
-        },
-        gender: {
             type: String,
             required: true
         },
@@ -44,7 +25,8 @@ const candidateSchema = new Schema(
         },
         status: {
             type: String,
-            default: "processing"
+            default: "processing",
+            enum : ["processing", "verified", "invalid"]
         }
     },
     

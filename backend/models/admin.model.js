@@ -6,7 +6,7 @@ const adminSchema = new Schema(
         email: {
             type: String,
             required: true,
-            index: true
+            lowercase: true
         },
         password: {
             type: String,
@@ -16,10 +16,20 @@ const adminSchema = new Schema(
             type: String,
             required: true
         },
-        flag: {
+        jobId: {
             type: String,
-            default: "false"
+            required: true
         },
+        status: {
+            type: String,
+            default: "processing",
+            enum: ["processing", "verified", "invalid"]
+        },
+        specialPower: {
+            type: String,
+            default: "false",
+            enum: ["true", "false"]
+        }
     },
 
     {
@@ -35,7 +45,7 @@ adminSchema.pre("save", async function(next) {
 })
 
 adminSchema.pre("save", function (next) {
-    if (this.email.includes("@eci.in")) {
+    if (this.email.includes("@eci.in") && this.status === "verified") {
         this.flag = "true"
     }
     next()

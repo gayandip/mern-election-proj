@@ -2,10 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const cardSchema = new Schema(
     {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        },
         fullName: {
             type: String,
             required: true
@@ -40,7 +36,8 @@ const cardSchema = new Schema(
         },
         status: {
             type: String,
-            default: "processing"
+            default: "processing",
+            enum: ["processing", "verified", "invalid"]
         },
         cardId: {
             type: String

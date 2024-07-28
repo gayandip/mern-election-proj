@@ -6,15 +6,19 @@ const userSchema = new Schema(
         email: {
             type: String,
             required: true,
-            index: true
+            lowecase: true
         },
         password: {
             type: String,
             required: true
         },
-        userType: {
-            type: String,
-            default: "user"
+        cardId: {
+            type: Schema.Types.ObjectId,
+            ref: "Card"
+        },
+        candidateId: {
+            type: Schema.Types.ObjectId,
+            ref: "Candidate"
         }
     },
     
