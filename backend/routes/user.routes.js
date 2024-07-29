@@ -1,7 +1,7 @@
 import {Router} from "express";
 import { registerUser } from "../controllers/user.controller.js";
 import { createCard } from "../controllers/card.controller.js";
-import { imgUpload } from "../middlewares/multer.js";
+import { upload } from "../middlewares/multer.js";
 
 
 const router = Router()
@@ -9,9 +9,13 @@ const router = Router()
 router.route("/register").post(registerUser)
 // router.route("/login").get(loginUser)
 router.route("/createcard").post(
-    imgUpload.fields([
+    upload.fields([
         {
             name: "image",
+            maxCount: 1
+        },
+        {
+            name: "docs",
             maxCount: 1
         }
     ]),

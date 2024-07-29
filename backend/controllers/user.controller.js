@@ -26,7 +26,7 @@ const registerUser = asyncExe(async (req, res) => {
     }
 
     const user = await User.create({
-        email : email.toLowerCase(),
+        email: email.toLowerCase(),
         password
     })
 
