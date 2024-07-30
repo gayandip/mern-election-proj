@@ -27,7 +27,7 @@ const createCard = asyncExe(async (req, res) => {
         throw new apiError(403, "you already have a voter card")
     }
 
-    const card = Card.create({
+    const card = await Card.create({
         fullName: name,
         address: add,
         assemblyConstituency: asscon,
@@ -39,7 +39,7 @@ const createCard = asyncExe(async (req, res) => {
         dateOfBirth: dob
     })
 
-    const createdCard = Card.findById(card._id)
+    const createdCard = await Card.findById(card._id)
 
     if (!createdCard) {
         throw new apiError(502, "error while creating card")
