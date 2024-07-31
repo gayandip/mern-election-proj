@@ -7,8 +7,9 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 
 // routes import
-import { router } from "../routes/user.routes.js"
+import { userRouter, adminRouter } from "../routes/user.routes.js"
 
-app.use("/users", router)
+app.use("/users", userRouter)
+app.use("/admin", adminRouter)
 
 export { app }

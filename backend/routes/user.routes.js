@@ -2,13 +2,16 @@ import {Router} from "express";
 import { registerUser } from "../controllers/user.controller.js";
 import { createCard } from "../controllers/card.controller.js";
 import { upload } from "../middlewares/multer.js";
+import { registerCandidate } from "../controllers/candidate.controller.js";
+import { registerAdmin } from "../controllers/admin.controller.js";
 
 
-const router = Router()
+const userRouter = Router()
+const adminRouter = Router()
 
-router.route("/register").post(registerUser)
+userRouter.route("/register").post(registerUser)
 // router.route("/login").get(loginUser)
-router.route("/createcard").post(
+userRouter.route("/createcard").post(
     upload.fields([
         {
             name: "image",
@@ -22,4 +25,19 @@ router.route("/createcard").post(
     createCard
 )
 
-export {router}
+userRouter.route("/candidate/register").post(
+    upload.fields([
+        {
+            name: "partydoc",
+            maxCount:1
+        }
+    ]),
+    registerCandidate
+)
+
+adminRouter.route("/register").post(registerAdmin)
+
+export {
+    userRouter,
+    adminRouter
+}

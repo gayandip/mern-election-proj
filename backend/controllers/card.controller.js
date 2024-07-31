@@ -6,8 +6,8 @@ import fs from "fs"
 
 const createCard = asyncExe(async (req, res) => {
     const {name, add, asscon, parcon, gen, dob, aadhar} = req.body
-    const imgUrl = await req.files?.image[0]?.path
-    const docUrl = await req.files?.docs[0]?.path
+    const imgUrl = req.files?.image[0]?.path
+    const docUrl = req.files?.docs[0]?.path
 
     if ([name, add, asscon, parcon, gen, dob, aadhar].some((field) => field?.trim() === "")) {
         throw new apiError(402, "empty any one of card field")
