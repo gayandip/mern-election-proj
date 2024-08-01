@@ -1,16 +1,19 @@
 import {Router} from "express";
-import { registerUser } from "../controllers/user.controller.js";
+import { loginUser, registerUser, logoutUser } from "../controllers/user.controller.js";
 import { createCard } from "../controllers/card.controller.js";
 import { upload } from "../middlewares/multer.js";
 import { registerCandidate } from "../controllers/candidate.controller.js";
-import { registerAdmin } from "../controllers/admin.controller.js";
+import { verifyJWT } from "../middlewares/auth.js";
 
 
 const userRouter = Router()
-const adminRouter = Router()
 
 userRouter.route("/register").post(registerUser)
-// router.route("/login").get(loginUser)
+
+userRouter.route("/login").post(loginUser)
+
+userRouter.route("/logout").post(verifyJWT, logoutUser)
+
 userRouter.route("/createcard").post(
     upload.fields([
         {
@@ -35,9 +38,4 @@ userRouter.route("/candidate/register").post(
     registerCandidate
 )
 
-adminRouter.route("/register").post(registerAdmin)
-
-export {
-    userRouter,
-    adminRouter
-}
+export {userRouter}

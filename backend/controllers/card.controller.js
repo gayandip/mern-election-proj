@@ -12,6 +12,9 @@ const createCard = asyncExe(async (req, res) => {
     if ([name, add, asscon, parcon, gen, dob, aadhar].some((field) => field?.trim() === "")) {
         throw new apiError(402, "empty any one of card field")
     }
+    if(!(imgUrl && docUrl)){
+        throw new apiError(403, "empty files field")
+    }
 
     const existedCard = await Card.findOne({aadharNumber: aadhar})
     if (existedCard) {

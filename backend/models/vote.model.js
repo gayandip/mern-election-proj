@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose";
+import aggrigate from "mongoose-aggregate-paginate-v2"
 
 const voteSchema = new Schema(
     {
@@ -17,4 +18,5 @@ const voteSchema = new Schema(
     }
 )
 
+voteSchema.plugin(aggrigate)
 export const Vote = mongoose.model("Vote", voteSchema)
