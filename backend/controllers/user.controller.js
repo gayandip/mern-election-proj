@@ -86,6 +86,14 @@ const loginUser = asyncExe(async (req, res) => {
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
 
+    if (loggedInUser.cardId) {
+        await loggedInUser.populate("cardId")
+
+        if (loggedInUser.candidateId) {
+            await loggedInUser.populate("candidateId")
+        }
+    }
+
     // cookies
     const options = {
         httpOnly: true,

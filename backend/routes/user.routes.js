@@ -15,6 +15,7 @@ userRouter.route("/login").post(loginUser)
 userRouter.route("/logout").post(verifyJWT, logoutUser)
 
 userRouter.route("/createcard").post(
+    verifyJWT,
     upload.fields([
         {
             name: "image",
@@ -29,6 +30,7 @@ userRouter.route("/createcard").post(
 )
 
 userRouter.route("/candidate/register").post(
+    verifyJWT,
     upload.fields([
         {
             name: "partydoc",

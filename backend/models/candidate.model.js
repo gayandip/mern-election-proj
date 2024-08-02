@@ -2,6 +2,7 @@ import mongoose, {Schema} from "mongoose";
 
 const candidateSchema = new Schema(
     {
+        details: Object,
         constituencyType: {
             type: String,
             required: true,

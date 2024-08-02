@@ -3,8 +3,14 @@ import { apiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import {Card} from "../models/card.model.js"
 import fs from "fs"
+import { User } from "../models/user.model.js";
 
 const createCard = asyncExe(async (req, res) => {
+
+    if (req.user.cardId) {
+        throw new apiError(403, "you already have a voter card")
+    }
+
     const {name, add, asscon, parcon, gen, dob, aadhar} = req.body
     const imgUrl = req.files?.image[0]?.path
     const docUrl = req.files?.docs[0]?.path
@@ -48,8 +54,20 @@ const createCard = asyncExe(async (req, res) => {
         throw new apiError(502, "error while creating card")
     }
 
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                cardId: createdCard._id
+            },
+        },
+        {
+            new: true
+        }
+    ).select("-password -refreshToken").populate("cardId")
+
     res.status(201).json(
-        new ApiResponse(200, createdCard, "created card successfully")
+        new ApiResponse(200, user, "created card successfully")
     )
 
     card.save()
