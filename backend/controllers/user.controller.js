@@ -94,6 +94,10 @@ const loginUser = asyncExe(async (req, res) => {
         }
     }
 
+    if (loggedInUser.adminId) {
+        await loggedInUser.populate("adminId")
+    }
+
     // cookies
     const options = {
         httpOnly: true,

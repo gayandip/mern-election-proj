@@ -4,6 +4,7 @@ import { createCard } from "../controllers/card.controller.js";
 import { upload } from "../middlewares/multer.js";
 import { registerCandidate } from "../controllers/candidate.controller.js";
 import { verifyJWT } from "../middlewares/auth.js";
+import { registerAdmin } from "../controllers/admin.controller.js";
 
 
 const userRouter = Router()
@@ -39,5 +40,7 @@ userRouter.route("/candidate/register").post(
     ]),
     registerCandidate
 )
+
+userRouter.route("/request/adminaccess").post(verifyJWT, registerAdmin)
 
 export {userRouter}

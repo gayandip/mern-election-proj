@@ -9,6 +9,9 @@ frontend and backend both
 3. /users/logut
 4. /users/createcard
 5. /users/candidate/register
+6. /users/request/adminaccess
 
 * admin
-1. /admins/register
+1. users/request/adminaccess
+2. admins/get/requests/:status
+3. admins/get/cards/:status

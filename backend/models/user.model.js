@@ -22,6 +22,10 @@ const userSchema = new Schema(
         candidateId: {
             type: Schema.Types.ObjectId,
             ref: "Candidate"
+        },
+        adminId: {
+            type: Schema.Types.ObjectId,
+            ref: "Admin"
         }
     },
     

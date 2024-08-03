@@ -17,8 +17,14 @@ export const verifyJWT = asyncExe(async (req, res, next) => {
         if (!user) {
             throw new apiError(401, "invalid access token")
         }
+
+        if (user.adminId) {
+            await user.populate("adminId")
+        }
+
         req.user = user
         next()
+        
     } catch (err) {
         throw new apiError(401, err.message || "invalid access token")
     }

@@ -1,8 +1,10 @@
 import {Router} from "express"
-import { registerAdmin } from "../controllers/admin.controller.js"
+import { getAdmins, getCards } from "../controllers/admin.controller.js"
+import { verifyJWT } from "../middlewares/auth.js"
 
 const adminRouter = Router()
 
-adminRouter.route("/register").post(registerAdmin)
+adminRouter.route("/get/requests/:status").get(verifyJWT, getAdmins)
+adminRouter.route("/get/cards/:status").get(verifyJWT, getCards)
 
 export {adminRouter}
