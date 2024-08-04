@@ -5,7 +5,7 @@ import { upload } from "../middlewares/multer.js";
 import { registerCandidate } from "../controllers/candidate.controller.js";
 import { verifyJWT } from "../middlewares/auth.js";
 import { registerAdmin } from "../controllers/admin.controller.js";
-
+import { getCandidatesToVote } from "../controllers/vote.controller.js";
 
 const userRouter = Router()
 
@@ -42,5 +42,6 @@ userRouter.route("/candidate/register").post(
 )
 
 userRouter.route("/request/adminaccess").post(verifyJWT, registerAdmin)
+userRouter.route("/vote/get/candidates/:constituency").get(verifyJWT, getCandidatesToVote)
 
 export {userRouter}
