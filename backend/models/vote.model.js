@@ -10,7 +10,8 @@ const voteSchema = new Schema(
         votedTo: {
             type: Schema.Types.ObjectId,
             ref: "Candidate"
-        }
+        },
+        electionType: String
     }, 
     
     {

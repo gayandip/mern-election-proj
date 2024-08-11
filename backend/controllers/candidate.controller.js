@@ -83,4 +83,18 @@ const registerCandidate = asyncExe(async (req,res) => {
     candidate.save()
 })
 
-export {registerCandidate}
+const showMyVotes = asyncExe(async (req, res) => {
+    // implement
+    // only my votes
+})
+
+const showMyConstituencyResult = asyncExe(async (req, res) => {
+    // implement
+    // all candidates with vote
+})
+
+export {
+    registerCandidate,
+    showMyVotes,
+    showMyConstituencyResult
+}

@@ -68,7 +68,7 @@ const getAdmins = asyncExe(async (req, res) => {
     res.status(200).json(new ApiResponse(200, admins, `admins fetched successfully`))
 })
 
-const getCards= asyncExe(async (req, res) => {
+const getCards = asyncExe(async (req, res) => {
     console.log(req.user.adminId.status);
     if (!(req.user.adminId.status == "verified")) {
         throw new apiError(403, "you do not have access")
@@ -83,6 +83,26 @@ const getCards= asyncExe(async (req, res) => {
     }
 
     res.status(200).json(new ApiResponse(200, cards, `cards fetched successfully`))
+})
+
+const verifyCard = asyncExe(async (req, res) => {
+    // implement
+})
+
+const verifyCandidate = asyncExe(async (req, res) => {
+    // implement
+})
+
+const verifyAdmin = asyncExe(async (req, res) => {
+    // implement
+})
+
+const giveSpecialPowerToAdmin = asyncExe(async (req, res) => {
+    // implement
+})
+
+const countVotes = asyncExe(async (req, res) => {
+    // implement
 })
 
 export {

@@ -18,6 +18,10 @@ export const verifyJWT = asyncExe(async (req, res, next) => {
             throw new apiError(401, "invalid access token")
         }
 
+        if (user.cardId){
+            await user.populate("cardId")
+        }
+
         if (user.adminId) {
             await user.populate("adminId")
         }
