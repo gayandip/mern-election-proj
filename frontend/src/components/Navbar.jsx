@@ -7,19 +7,20 @@ function Navbar() {
         <a>Home</a>
       </li>
       <li>
-        <a>About Us</a>
+        <a>Voting Result</a>
       </li>
       <li>
-        <a>Contact us</a>
+        <a>Validate Card</a>
       </li>
     </>
   );
+
   return (
     <>
       <div className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -38,11 +39,13 @@ function Navbar() {
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >{navList}</ul>
+            >
+              {navList}
+            </ul>
           </div>
           <a className="m-2 p-2 text-2xl font-bold">ElectionBits</a>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden md:flex">
           <ul className="menu menu-horizontal px-1">{navList}</ul>
         </div>
         <div className="navbar-end">
