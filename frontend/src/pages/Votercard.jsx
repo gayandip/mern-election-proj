@@ -116,6 +116,9 @@ function Votercard() {
             </div>
             <div className="mt-4 flex items-center justify-between">
               <span className="border-b w-1/5 md:w-1/4"></span>
+              <Link to="/candidatelist" className="text-xs text-blue-600 uppercase">
+                Add candidate
+              </Link>
               <span className="border-b w-1/5 md:w-1/4"></span>
             </div>
           </div>
