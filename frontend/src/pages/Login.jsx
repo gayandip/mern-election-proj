@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import axios from "axios"
 
 function Login() {
@@ -10,20 +10,23 @@ function Login() {
   }
 
   const loginUser = async () => {
+
     const {email, password} = user
     if (email.trim()==="" || password.trim()==="") {
-      
+      return
     }
     if (!(email.includes("@"))) {
-      
+      return
     }
-    await axios.post("http://localhost:5001/api/users/login",{email, password}).then((res) => {
-      console.log(res.data.data);
-      window.alert("Login success")
 
+    await axios.post("http://localhost:5001/users/login", user)
+    .then((res) => {
+      console.log(res.data);
+      window.alert("Login success")
     }).catch((err) => {
       console.log(err.message);
     })
+
   };
 
   return (

@@ -6,7 +6,6 @@ import { registerCandidate } from "../controllers/candidate.controller.js";
 import { verifyJWT } from "../middlewares/auth.js";
 import { registerAdmin } from "../controllers/admin.controller.js";
 import { getCandidatesToVote, castVote, getResult } from "../controllers/vote.controller.js";
-import { getCandidatesToVote, castVote, getResult, showConstituencyResult } from "../controllers/vote.controller.js";
 
 const userRouter = Router()
 

@@ -1,10 +1,35 @@
-import React from "react";
-import {Link} from "react-router-dom"
+import React, { useState } from "react";
+import { Link } from "react-router-dom"
+import axios from "axios";
 
 function Register() {
-  const registerUser = () => {
-    console.log("register success");
+
+  const [user, setUser] = useState({email:"", password: ""})
+
+  const getInput = (e) => {
+    setUser({...user, [e.target.name]:e.target.value})
+  }
+
+  const registerUser = async () => {
+
+    const {email, password} = user
+    if (email.trim()==="" || password.trim()==="") {
+      return
+    }
+    if (!(email.includes("@"))) {
+      return
+    }
+
+    await axios.post("http://localhost:5001/users/register", user)
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
+
   };
+  
   return (
     <>
       <div className="py-16">
@@ -24,6 +49,8 @@ function Register() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="email"
                 name="email"
+                value={user.email}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -34,6 +61,8 @@ function Register() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="password"
                 name="password"
+                value={user.password}
+                onChange={getInput}
               />
             </div>
             <div className="mt-8">
@@ -46,11 +75,8 @@ function Register() {
             </div>
             <div className="mt-4 flex items-center justify-between">
               <span className="border-b w-1/5 md:w-1/4"></span>
-              <Link to="/register" className="text-xs text-blue-600 uppercase">
+              <Link to="/login" className="text-xs text-blue-600 uppercase">
                 sign in
-              </Link>
-              <Link to="/votercard" className="text-xs text-blue-600 uppercase">
-                create votercard
               </Link>
               <span className="border-b w-1/5 md:w-1/4"></span>
             </div>

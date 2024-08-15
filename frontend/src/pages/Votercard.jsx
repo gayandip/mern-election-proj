@@ -1,10 +1,12 @@
 import React from "react";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function Votercard() {
-  const voterUser = () => {
-    console.log("votercard success");
+
+  const createCard = () => {
+    console.log("vcard created");
   };
+
   return (
     <>
       <div className="py-16">
@@ -14,11 +16,11 @@ function Votercard() {
               ElectionBits
             </h2>
             <p className="text-xl text-gray-600 text-center">
-              Create voter card
+              Create your card here !!
             </p>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Name
+                Full Name
               </label>
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
@@ -33,7 +35,7 @@ function Votercard() {
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
-                name="address"
+                name="add"
               />
             </div>
             <div className="mt-4">
@@ -43,7 +45,7 @@ function Votercard() {
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
-                name="assembly"
+                name="asscon"
               />
             </div>
             <div className="mt-4">
@@ -53,18 +55,19 @@ function Votercard() {
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
-                name="parliament"
+                name="parcon"
               />
             </div>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
               Gender
               </label>
-              <input
-                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
-                type="text"
-                name="gender"
-              />
+              <select name="gen" className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Others">Others</option>
+              </select>
             </div>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -78,7 +81,7 @@ function Votercard() {
             </div>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-              Aadhar
+              Aadhar Number
               </label>
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
@@ -88,36 +91,36 @@ function Votercard() {
             </div>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-              Aadhar Image
+              Your Image
               </label>
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="file"
-                name="file-input"
+                name="image"
               />
             </div>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-               Photo
+               Aadhar Scanned pdf
               </label>
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="file"
-                name="file-input"
+                name="docs"
               />
             </div>
             <div className="mt-8">
               <button
-                onClick={voterUser}
+                onClick={createCard}
                 className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
               >
-                submit
+                Create Card
               </button>
             </div>
             <div className="mt-4 flex items-center justify-between">
               <span className="border-b w-1/5 md:w-1/4"></span>
-              <Link to="/candidatelist" className="text-xs text-blue-600 uppercase">
-                Add candidate
+              <Link to="/" className="text-xs text-blue-600 uppercase">
+                Go To Home
               </Link>
               <span className="border-b w-1/5 md:w-1/4"></span>
             </div>
