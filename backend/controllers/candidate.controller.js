@@ -5,6 +5,8 @@ import {Card} from "../models/card.model.js"
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { unlinkFile } from "../utils/unlinkFile.js";
+import { Vote } from "../models/vote.model.js"
+import mongoose from "mongoose";
 
 const registerCandidate = asyncExe(async (req,res) => {
     
@@ -83,4 +85,46 @@ const registerCandidate = asyncExe(async (req,res) => {
     candidate.save()
 })
 
-export {registerCandidate}
+const showMyConstituencyResult = asyncExe(async (req, res) => {
+    const user = req.user
+    if (!user.candidateId) {
+        throw new apiError(503, "you are not a candidate")
+    }
+
+    await user.populate("candidateId")
+    if (!(user.candidateId.status === "verified")) {
+        throw new apiError(503, "you are not a verified candidate")
+    }
+
+    const candidates = await Candidate.find(
+        {
+            $and: [ { constituencyName:user.candidateId.constituencyName }, { status: "verified"} ]
+        }
+    )
+
+    candidates.map(async (candidate) => {
+
+        const vote = await Vote.aggregate([
+            {
+                $match: {
+                    _id: mongoose.Types.ObjectId(candidate._id)
+                }
+            },
+            {
+                $count: "votes"
+            }
+        ])
+
+        candidate.totalVotes = vote.votes
+    })
+
+    res.status(200).json(
+        new ApiResponse(200,candidates,"vote count success")
+    )
+
+})
+
+export {
+    registerCandidate,
+    showMyConstituencyResult
+}

@@ -1,6 +1,8 @@
 import { Admin } from "../models/admin.model.js";
 import { Card } from "../models/card.model.js";
 import { User } from "../models/user.model.js";
+import { Vote } from "../models/vote.model.js";
+import { Candidate } from "../models/candidate.model.js";
 import { apiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncExe } from "../utils/asyncExecute.js";
@@ -68,8 +70,8 @@ const getAdmins = asyncExe(async (req, res) => {
     res.status(200).json(new ApiResponse(200, admins, `admins fetched successfully`))
 })
 
-const getCards= asyncExe(async (req, res) => {
-    console.log(req.user.adminId.status);
+const getCards = asyncExe(async (req, res) => {
+
     if (!(req.user.adminId.status == "verified")) {
         throw new apiError(403, "you do not have access")
     }
@@ -85,8 +87,173 @@ const getCards= asyncExe(async (req, res) => {
     res.status(200).json(new ApiResponse(200, cards, `cards fetched successfully`))
 })
 
+const getCandidates = asyncExe(async (req, res) => {
+    if (!(req.user.adminId.status == "verified" && req.user.adminId.specialPower == "true")) {
+        throw new apiError(403, "you do not have access")
+    }
+    
+    let candidates = {}
+
+    if (req.params.status == "all") {
+        candidates = await Candidate.find()
+    }else{
+        candidates = await Candidate.find({status: req.params.status})
+    }
+
+    res.status(200).json(new ApiResponse(200, candidates, "candidates fetched successfully"))
+})
+
+const verifyCard = asyncExe(async (req, res) => {
+    if (!req.user.adminId) {
+        throw new apiError(403, "you do not have access permission")
+    }
+
+    if (!(req.user.adminId.status === "verified")) {
+        throw new apiError(403, "you are not a verified admin")
+    }
+
+    const cardId = req.params.id
+    if (!cardId) {
+        throw new apiError(403, "please enter a card id")
+    }
+
+    const updatedCard = await Card.findByIdAndUpdate(
+        cardId,
+        {
+            status: "verified"
+        },
+        {
+            new: true
+        }
+    )
+
+    updatedCard.save()
+
+    res.status(200).json({message: "Successfully verified"})
+})
+
+const verifyCandidate = asyncExe(async (req, res) => {
+    if (!req.user.adminId) {
+        throw new apiError(403, "you do not have access permission")
+    }
+
+    if (!(req.user.adminId.status == "verified" && req.user.adminId.specialPower == "true")) {
+        throw new apiError(403, "you do not have access")
+    }
+
+    const candidateId = req.params.id
+    if (!candidateId) {
+        throw new apiError(403, "please enter a candidate id")
+    }
+
+    const updatedCandidate = await Candidate.findByIdAndUpdate(
+        candidateId,
+        {
+            status: "verified"
+        },
+        {
+            new: true
+        }
+    )
+
+    updatedCandidate.save()
+
+    res.status(200).json({message: "Successfully verified"})
+})
+
+const verifyAdmin = asyncExe(async (req, res) => {
+    if (!(req.user.adminId.status == "verified" && req.user.adminId.specialPower == "true")) {
+        throw new apiError(403, "you do not have access")
+    }
+
+    const adminId = req.params.id
+    if (!adminId) {
+        throw new apiError(403, "please enter a admin id")
+    }
+
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+        adminId,
+        {
+            status: "verified"
+        },
+        {
+            new: true
+        }
+    )
+    updatedAdmin.save()
+
+    res.status(200).json({message: "verified successfully"})
+})
+
+const updateAdminPower = asyncExe(async (req, res) => {
+    if (!(req.user.adminId.status == "verified" && req.user.adminId.specialPower == "true")) {
+        throw new apiError(403, "you do not have access")
+    }
+
+    const adminId = req.params.id
+    if (!adminId) {
+        throw new apiError(403, "please enter a admin id")
+    }
+
+    const power = req.params.power
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+        adminId,
+        {
+            specialPower: String(power)
+        },
+        {
+            new: true
+        }
+    )
+    updatedAdmin.save()
+
+    res.status(200).json({message: "power updated successfully"})
+})
+
+const countVotes = asyncExe(async (req, res) => {
+    if (!(req.user.adminId.status == "verified" && req.user.adminId.specialPower == "true")) {
+        throw new apiError(403, "you do not have access")
+    }
+
+    if (!(req.user.adminId.type == "supreme")) {
+        throw new apiError(403, "you are not allowed to do that operation")
+    }
+
+    const election = req.params.electionType
+    if (!election) {
+        throw new apiError(403, "election type or name required")
+    }
+
+    const a = Vote.aggregate(
+        [
+            {
+              $match: {
+                electionType: election
+              }
+            },
+            {
+              $group: {
+                _id: "$_id",
+                totalVotes: { $sum:1 }
+              }
+            }
+            
+        ]
+    )
+
+    console.log(a);
+    //implement
+
+})
+
 export {
     registerAdmin,
     getAdmins,
-    getCards
+    getCards,
+    getCandidates,
+    verifyCard,
+    verifyCandidate,
+    verifyAdmin,
+    updateAdminPower,
+    countVotes
 }

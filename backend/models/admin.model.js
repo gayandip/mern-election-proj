@@ -19,6 +19,11 @@ const adminSchema = new Schema(
             type: String,
             enum: ["true", "false"],
             default: "false"
+        },
+        type: {
+            type: String,
+            enum: ["normal", "supreme"],
+            default: "normal"
         }
     },
 

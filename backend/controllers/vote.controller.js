@@ -1,6 +1,7 @@
 import { Candidate } from "../models/candidate.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncExe } from "../utils/asyncExecute.js";
+import { Vote } from "../models/vote.model.js"
 
 
 const getCandidatesToVote = asyncExe(async (req,res) => {
@@ -24,6 +25,51 @@ const getCandidatesToVote = asyncExe(async (req,res) => {
     res.status(200).json(new ApiResponse(200, candidates, "fetched candidate successfully"))
 })
 
+const castVote = asyncExe(async (req, res) => {
+    
+    if (!(req.user.cardId)) {
+        throw new apiError(403, "you do not have a voter card, create card first")
+    }
+
+    if (!(req.user.cardId.status == "verified")) {
+        throw new apiError(403, "your card is not verified")
+    }
+
+    const {type, votingTo} = req.body
+    const voter = req.user.cardId._id
+
+    const pastHistory = await Vote.find(
+        {
+            $and: [{voter}, {electionType:type}]
+        }
+    )
+    if (pastHistory) {
+        throw new apiError(403, "you already casted your vote")
+    }
+
+    const vote = await Vote.create({
+        voter: voter,
+        votedTo: votingTo,
+        electionType: type
+    })
+    vote.save()
+
+    const castedVote = await Vote.findById(vote._id)
+    if (!castedVote) {
+        throw new apiError(403, "vote casting error")
+    }
+
+    res.status(200).json(
+        new ApiResponse(201,castedVote,"success")
+    )
+})
+
+const getResult = asyncExe(async (req, res) => {
+    // implement
+})
+
 export{
-    getCandidatesToVote
+    getCandidatesToVote,
+    castVote,
+    getResult
 }
