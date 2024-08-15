@@ -49,6 +49,9 @@ function Register() {
               <Link to="/register" className="text-xs text-blue-600 uppercase">
                 sign in
               </Link>
+              <Link to="/votercard" className="text-xs text-blue-600 uppercase">
+                create votercard
+              </Link>
               <span className="border-b w-1/5 md:w-1/4"></span>
             </div>
           </div>
@@ -57,5 +60,4 @@ function Register() {
     </>
   );
 }
-
 export default Register;
