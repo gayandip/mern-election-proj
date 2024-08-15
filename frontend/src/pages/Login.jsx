@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import {Link} from "react-router-dom"
+import axios from "axios"
 
 function Login() {
-  const loginUser = () => {
-    console.log("login success");
+  const [user, setUser] = useState({email:"", password: ""})
+
+  const getInput = (e) => {
+    setUser({...user, [e.target.name]:e.target.value})
+  }
+
+  const loginUser = async () => {
+    const {email, password} = user
+    if (email.trim()==="" || password.trim()==="") {
+      
+    }
+    if (!(email.includes("@"))) {
+      
+    }
+    await axios.post("http://localhost:5001/api/users/login",{email, password}).then((res) => {
+      console.log(res.data.data);
+      window.alert("Login success")
+
+    }).catch((err) => {
+      console.log(err.message);
+    })
   };
 
   return (
@@ -23,6 +43,8 @@ function Login() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="email"
                 name="email"
+                value={user.email}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -38,6 +60,8 @@ function Login() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="password"
                 name="password"
+                value={user.password}
+                onChange={getInput}
               />
             </div>
             <div className="mt-8">
