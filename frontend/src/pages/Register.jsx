@@ -11,7 +11,7 @@ function Register() {
   }
 
   const registerUser = async () => {
-
+    
     const {email, password} = user
     if (email.trim()==="" || password.trim()==="") {
       return
@@ -22,6 +22,7 @@ function Register() {
 
     await axios.post("http://localhost:5001/users/register", user)
     .then((res) => {
+      setUser({email:"", password: ""})
       console.log(res.data);
     })
     .catch((err) => {

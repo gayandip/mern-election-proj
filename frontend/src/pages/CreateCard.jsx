@@ -1,10 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom"
+import axios from "axios"
 
-function Votercard() {
+function CreateCard() {
+  const [card, setCard] = useState(
+    {
+      name: "",
+      add: "",
+      asscon: "",
+      parcon: "",
+      gen: "",
+      dob: "",
+      aadhar: "",
+      image: "",
+      docs: ""
+    }
+  )
 
-  const createCard = () => {
-    console.log("vcard created");
+  const getInput = (e) => {
+
+    if (e.target.name == "image" || e.target.name == "docs") {
+      setCard({...card, [e.target.name]:e.target.files[0]})
+    }
+    else {
+      setCard({...card, [e.target.name]:e.target.value})
+    }
+  }
+
+  const create = async () => {
+    
+    const values = Object.values(card)
+    
+    if (values.some((field) => typeof(field) == "object" ? field.name.trim() === "" : field.trim() === "" )) {
+      return
+    }
+
+    if (!(card.image.name.includes("jpeg") || card.image.name.includes("jpg"))) {
+      console.log("not a proper image"); 
+    }
+
+    if (!(card.docs.name.includes("pdf"))) {
+      console.log("not a pdf file");
+      
+    }
+    
+    await axios.post("http://localhost:5001/users/createcard", card)
+    .then((res) => {
+      console.log(res.data);
+      window.alert("success")
+    }).catch((err) => {
+      console.log(err.message);
+    })
   };
 
   return (
@@ -25,7 +71,10 @@ function Votercard() {
               <input
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
+                required
                 name="name"
+                value={card.name}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -36,6 +85,9 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
                 name="add"
+                required
+                value={card.add}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -46,6 +98,9 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
                 name="asscon"
+                required
+                value={card.asscon}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -56,13 +111,16 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
                 name="parcon"
+                required
+                value={card.parcon}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
               Gender
               </label>
-              <select name="gen" className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
+              <select name="gen" required onChange={getInput} className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none">
                 <option value="">Select</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -77,6 +135,8 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="date"
                 name="dob"
+                required
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -87,6 +147,9 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="text"
                 name="aadhar"
+                required
+                value={card.aadhar}
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -97,6 +160,9 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="file"
                 name="image"
+                accept="image/*"
+                required
+                onChange={getInput}
               />
             </div>
             <div className="mt-4">
@@ -107,11 +173,14 @@ function Votercard() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="file"
                 name="docs"
+                accept=".pdf"
+                required
+                onChange={getInput}
               />
             </div>
             <div className="mt-8">
               <button
-                onClick={createCard}
+                onClick={create}
                 className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
               >
                 Create Card
@@ -130,4 +199,4 @@ function Votercard() {
     </>
   );
 }
-export default Votercard;
+export default CreateCard;

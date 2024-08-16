@@ -22,6 +22,7 @@ function Login() {
     await axios.post("http://localhost:5001/users/login", user)
     .then((res) => {
       console.log(res.data);
+      setUser({email:"", password: ""})
       window.alert("Login success")
     }).catch((err) => {
       console.log(err.message);
