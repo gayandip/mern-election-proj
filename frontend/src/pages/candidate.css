@@ -1,0 +1,31 @@
+div {
+    margin: 2px;
+  }
+  
+  h2 {
+    text-align: center; 
+    color:black;    
+  }
+  
+  form {
+    display: table;
+    width: 30%;
+    margin: 0 auto;
+  }
+  
+  form > div {
+    display: table-row;
+  }
+  
+  label {
+    color:black;
+    display: table-cell;
+    padding: 2px;
+    border: 1px solid black;
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+  }

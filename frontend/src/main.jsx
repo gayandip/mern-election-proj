@@ -9,6 +9,9 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import CreateCard from "./pages/CreateCard";
 
+import Candidatelist from "./pages/Candidatelist";
+import Card from "./pages/Card";
+
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
