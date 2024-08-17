@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+import toast from "react-hot-toast";
 
 function CreateCard() {
   const [card, setCard] = useState(
@@ -17,6 +18,8 @@ function CreateCard() {
     }
   )
 
+  const navigate = useNavigate()
+
   const getInput = (e) => {
 
     if (e.target.name == "image" || e.target.name == "docs") {
@@ -32,25 +35,29 @@ function CreateCard() {
     const values = Object.values(card)
     
     if (values.some((field) => typeof(field) == "object" ? field.name.trim() === "" : field.trim() === "" )) {
+      toast.error("empty fields")
       return
     }
 
     if (!(card.image.name.includes("jpeg") || card.image.name.includes("jpg"))) {
-      console.log("not a proper image"); 
+      toast.error("incorrect image format")
     }
 
     if (!(card.docs.name.includes("pdf"))) {
-      console.log("not a pdf file");
-      
+      toast.error("not a pdf file")
     }
     
-    await axios.post("http://localhost:5001/users/createcard", card)
-    .then((res) => {
-      console.log(res.data);
-      window.alert("success")
-    }).catch((err) => {
+    try {
+      await axios.post("http://localhost:5001/users/createcard", card, {withCredentials: true, headers: {"Content-Type":"multipart/form-data"}})
+      .then((res) => {
+        toast.success("card created, verification under process")
+        navigate("/users/dashboard")
+      }).catch((err) => {
+        toast.error(err.response.data.message)
+      })
+    } catch (err) {
       console.log(err.message);
-    })
+    }
   };
 
   return (

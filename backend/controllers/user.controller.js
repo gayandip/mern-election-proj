@@ -136,8 +136,14 @@ const logoutUser = asyncExe(async (req, res) => {
     )
 })
 
+const getCurrentUser = asyncExe(async (req, res) => {
+    
+    return res.status(200).json(new ApiResponse(200, req.user, "user fetched successfully"))
+})
+
 export {
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    getCurrentUser
 }

@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { loginUser, registerUser, logoutUser } from "../controllers/user.controller.js";
+import { loginUser, registerUser, logoutUser, getCurrentUser } from "../controllers/user.controller.js";
 import { createCard } from "../controllers/card.controller.js";
 import { upload } from "../middlewares/multer.js";
 import { registerCandidate } from "../controllers/candidate.controller.js";
@@ -14,6 +14,7 @@ userRouter.route("/register").post(registerUser)
 userRouter.route("/login").post(loginUser)
 
 userRouter.route("/logout").post(verifyJWT, logoutUser)
+userRouter.route("/get/current/loggedin").get(verifyJWT, getCurrentUser)
 
 userRouter.route("/createcard").post(
     verifyJWT,

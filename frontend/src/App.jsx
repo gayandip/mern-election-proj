@@ -1,16 +1,15 @@
-import Footer from './components/Footer.jsx'
-import Navbar from './components/Navbar.jsx';
-import { Outlet } from 'react-router-dom'
+import Layout from "./pages/Layout.jsx";
+import Footer from "./components/Footer.jsx";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-
   return (
     <>
-    <Navbar/>
-    <Outlet/>
-    <Footer/>
+      <Layout />
+      <Footer />
+      <Toaster />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

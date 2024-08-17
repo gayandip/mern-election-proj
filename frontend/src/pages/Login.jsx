@@ -1,33 +1,43 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"
-import axios from "axios"
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Login() {
-  const [user, setUser] = useState({email:"", password: ""})
+  const [user, setUser] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const getInput = (e) => {
-    setUser({...user, [e.target.name]:e.target.value})
-  }
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
   const loginUser = async () => {
-
-    const {email, password} = user
-    if (email.trim()==="" || password.trim()==="") {
-      return
+    const { email, password } = user;
+    if (email.trim() === "" || password.trim() === "") {
+      toast.error("empty fields")
+      return;
     }
-    if (!(email.includes("@"))) {
-      return
+    if (!email.includes("@")) {
+      toast.error("not a proper email")
+      return;
     }
 
-    await axios.post("http://localhost:5001/users/login", user)
-    .then((res) => {
-      console.log(res.data);
-      setUser({email:"", password: ""})
-      window.alert("Login success")
-    }).catch((err) => {
+    try {
+      await axios
+        .post("http://localhost:5001/users/login", user, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          setUser({ email: "", password: "" });
+          toast.success("Login successful");
+          navigate("/home");
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message);
+        });
+    } catch (err) {
       console.log(err.message);
-    })
-
+    }
   };
 
   return (
@@ -78,7 +88,10 @@ function Login() {
             </div>
             <div className="mt-4 flex items-center justify-between">
               <span className="border-b w-1/5 md:w-1/4"></span>
-              <Link to="/register" className="text-xs text-blue-600 uppercase">
+              <Link
+                to="/users/register"
+                className="text-xs text-blue-600 uppercase"
+              >
                 sign up
               </Link>
               <span className="border-b w-1/5 md:w-1/4"></span>

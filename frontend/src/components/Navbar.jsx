@@ -1,7 +1,49 @@
-import React from "react";
-import {NavLink} from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import axios from "axios"
+import { toast } from "react-hot-toast";
 
 function Navbar() {
+  const [user, setUser] = useState()
+  const [loginLogout, setLoginLogout] = useState(<Link  to="users/login" className="btn">Login</Link>)
+  const navigate = useNavigate()
+
+  const logout = async () => {
+    try {
+      await axios.post("http://localhost:5001/users/logout", {}, { withCredentials: true })
+      .then((res) => {
+        if (res.status == 200) {
+          setLoginLogout(<Link  to="/login" className="btn">Login</Link>)
+          toast.success("Logout success")
+          navigate("/")
+        }
+      })
+      .catch((err) => {
+        toast.error("logout failed")
+      })
+    } catch (err) {
+      toast.error("logout failed")
+    }
+  }
+
+  const getUser = async () => {
+    try {
+      await axios.get("http://localhost:5001/users/get/current/loggedin", { withCredentials: true })
+      .then((res) => {
+        if (res.status == 200) {
+          setUser(res.data)
+          setLoginLogout(<Link  to="/" onClick={logout} className="btn">Logout</Link>)
+        }
+      })
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
+  useEffect(() => {
+    getUser()
+  }, [user, loginLogout])
+  
   const navList = (
     <>
       <li>
@@ -50,13 +92,13 @@ function Navbar() {
               {navList}
             </ul>
           </div>
-          <p className="m-2 p-2 text-2xl font-bold">ElectionBits</p>
+          <p className="m-2 p-2 text-xl md:text-2xl font-bold">ElectionBits</p>
         </div>
         <div className="navbar-center hidden md:flex">
           <ul className="menu menu-horizontal px-1">{navList}</ul>
         </div>
         <div className="navbar-end mr-4">
-          <button className="btn">Login</button>
+          {loginLogout}
         </div>
       </div>
     </>

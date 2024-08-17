@@ -1,36 +1,45 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function Register() {
-
-  const [user, setUser] = useState({email:"", password: ""})
+  const [user, setUser] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const getInput = (e) => {
-    setUser({...user, [e.target.name]:e.target.value})
-  }
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
   const registerUser = async () => {
-    
-    const {email, password} = user
-    if (email.trim()==="" || password.trim()==="") {
-      return
+
+    const { email, password } = user;
+    if (email.trim() === "" || password.trim() === "") {
+      toast.error("empty fields")
+      return;
     }
-    if (!(email.includes("@"))) {
-      return
+    if (!email.includes("@")) {
+      toast.error("not a proper email")
+      return;
     }
 
-    await axios.post("http://localhost:5001/users/register", user)
-    .then((res) => {
-      setUser({email:"", password: ""})
-      console.log(res.data);
-    })
-    .catch((err) => {
+    try {
+      await axios
+        .post("http://localhost:5001/users/register", user)
+        .then((res) => {
+
+          setUser({ email: "", password: "" });
+          toast.success("Register Success, Login now");
+          navigate("/users/login");
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message);
+        });
+    } catch (err) {
       console.log(err.message);
-    })
-
+    }
   };
-  
+
   return (
     <>
       <div className="py-16">
