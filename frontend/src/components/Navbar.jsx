@@ -27,17 +27,17 @@ function Navbar() {
   }
 
   const getUser = async () => {
-    try {
-      await axios.get("http://localhost:5001/users/get/current/loggedin", { withCredentials: true })
-      .then((res) => {
-        if (res.status == 200) {
-          setUser(res.data)
-          setLoginLogout(<Link  to="/" onClick={logout} className="btn">Logout</Link>)
-        }
-      })
-    } catch (err) {
-      console.log(err.message);
-    }
+    // try {
+    //   await axios.get("http://localhost:5001/users/get/current/loggedin", { withCredentials: true })
+    //   .then((res) => {
+    //     if (res.status == 200) {
+    //       setUser(res.data)
+    //       setLoginLogout(<Link  to="/" onClick={logout} className="btn">Logout</Link>)
+    //     }
+    //   })
+    // } catch (err) {
+    //   console.log(err.message);
+    // }
   }
 
   useEffect(() => {
@@ -69,6 +69,10 @@ function Navbar() {
       <div className="navbar bg-base-100 shadow-md sticky z-50 top-0">
         <div className="navbar-start">
           <div className="dropdown">
+          <div className="drawer">
+          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+          <div className="drawer-content">
+            <label htmlFor="my-drawer">
             <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -85,12 +89,16 @@ function Navbar() {
                 />
               </svg>
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            >
-              {navList}
-            </ul>
+            </label>
+            </div>
+
+            <div className="drawer-side">
+    <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+    <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+      {navList}
+    </ul>
+  </div>
+  </div>
           </div>
           <p className="m-2 p-2 text-xl md:text-2xl font-bold">ElectionBits</p>
         </div>

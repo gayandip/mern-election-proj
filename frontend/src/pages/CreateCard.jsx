@@ -41,10 +41,12 @@ function CreateCard() {
 
     if (!(card.image.name.includes("jpeg") || card.image.name.includes("jpg"))) {
       toast.error("incorrect image format")
+      return
     }
 
     if (!(card.docs.name.includes("pdf"))) {
       toast.error("not a pdf file")
+      return
     }
     
     try {
@@ -63,7 +65,7 @@ function CreateCard() {
   return (
     <>
       <div className="py-16">
-        <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-xs md:max-w-sm">
+        <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-xs md:max-w-md">
           <div className="w-full p-8">
             <h2 className="text-2xl font-semibold text-gray-700 text-center">
               ElectionBits

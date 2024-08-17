@@ -6,7 +6,7 @@ const candidateSchema = new Schema(
         constituencyType: {
             type: String,
             required: true,
-            enum: ["assembly", "parlament"]
+            enum: ["assembly", "parliament"]
         },
         constituencyName: {
             type: String,

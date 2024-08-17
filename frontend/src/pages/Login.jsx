@@ -30,7 +30,7 @@ function Login() {
         .then((res) => {
           setUser({ email: "", password: "" });
           toast.success("Login successful");
-          navigate("/home");
+          navigate("/users/dashboard");
         })
         .catch((err) => {
           toast.error(err.response.data.message);
