@@ -28,31 +28,21 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    console.log("called");
-
     getUser();
   }, [user]);
+  console.log(user);
 
   return user == true ? (
     <>
       <div className="h-screen">
         <div className="m-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Link className="btn btn-neutral m-5">View Profile</Link>
-          <Link className="btn btn-neutral m-5">View Card</Link>
+          <Link className="btn btn-neutral m-5">View Admins</Link>
+          <Link className="btn btn-neutral m-5">View Cards</Link>
           <Link to="/users/createcard" className="btn btn-neutral m-5">
-            Create Card
-          </Link>
-          <Link to="/candidates/register" className="btn btn-neutral m-5">
-            Register as a Candidate
+            View Candidates
           </Link>
           <Link to="" className="btn btn-neutral m-5">
-            Request Admin Access
-          </Link>
-          <Link to="" className="btn btn-neutral m-5">
-            Cast vote
-          </Link>
-          <Link to="" className="btn btn-neutral m-5">
-            Get Result
+            Count Votes
           </Link>
         </div>
       </div>

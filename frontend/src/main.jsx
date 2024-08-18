@@ -5,11 +5,13 @@ import { createRoutesFromElements, Route } from "react-router-dom";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import CreateCard from "./pages/CreateCard";
+import Register from "./pages/user/Register";
+import Login from "./pages/user/Login";
+import CreateCard from "./pages/user/CreateCard";
 import RegisterCandidate from "./pages/candidate/Register";
-import Dashboard from "./pages/user/Dashboard";
+import UserDashboard from "./pages/user/Dashboard";
+import CandidateDashboard from "./pages/candidate/Dashboard";
+import AdminDashboard from "./pages/admin/Dashboard";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -18,14 +20,19 @@ const routes = createBrowserRouter(
       <Route path="home" element={<Home />} />
 
       <Route path="users">
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={<UserDashboard/>} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="createcard" element={<CreateCard />} />
       </Route>
 
       <Route path="candidates">
+        <Route path="dashboard" element={<CandidateDashboard />} />
         <Route path="register" element={<RegisterCandidate />} />
+      </Route>
+
+      <Route path="admins">
+        <Route path="dashboard" element={<AdminDashboard />} />
       </Route>
 
     </Route>

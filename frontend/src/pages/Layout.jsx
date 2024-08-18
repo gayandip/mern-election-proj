@@ -11,10 +11,10 @@ function Layout() {
           <div className="collapse-title">
             Dashboards
           </div>
-          <div className="collapse-content text mt-[-10px]">
+          <div className="collapse-content mt-[-10px]">
             <p className="mx-3 mb-3 cursor-pointer"><Link to="/users/dashboard">User</Link></p>
-            <p className="mt-2"><Link>Candidate</Link></p>
-            <p className="mt-2"><Link>Admin</Link></p>
+            <p className="mx-3 mb-3 cursor-pointer"><Link to="/candidates/dashboard">Candidate</Link></p>
+            <p className="mx-3 mb-3 cursor-pointer"><Link to="/admins/dashboard">Admin</Link></p>
           </div>
         </div>
       </div>

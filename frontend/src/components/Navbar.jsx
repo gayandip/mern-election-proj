@@ -64,6 +64,22 @@ function Navbar() {
     </>
   );
 
+  const extraMobileList = (
+    <>
+      <div className="collapse collapse-plus text-sm rounded-none">
+          <input type="radio" name="my-accordion-3"/>
+          <div className="collapse-title">
+            Dashboards
+          </div>
+          <div className="collapse-content mt-[-10px]">
+            <p className="mx-3 mb-3 cursor-pointer"><Link to="/users/dashboard">User</Link></p>
+            <p className="mx-3 mb-3 cursor-pointer"><Link to="/candidates/dashboard">Candidate</Link></p>
+            <p className="mx-3 mb-3 cursor-pointer"><Link to="/admins/dashboard">Admin</Link></p>
+          </div>
+        </div>
+    </>
+  )
+
   return (
     <>
       <div className="navbar bg-base-100 shadow-md sticky z-50 top-0">
@@ -95,7 +111,7 @@ function Navbar() {
             <div className="drawer-side">
     <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
     <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-      {navList}
+      {navList}{extraMobileList}
     </ul>
   </div>
   </div>
