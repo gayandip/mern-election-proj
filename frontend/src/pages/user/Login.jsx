@@ -1,46 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useLogin } from "../../context/login.context";
+import Error from "../others/Error";
+import CheckLogin from "../../hooks/CheckLogin";
 
 function Login() {
-  const [user, setUser] = useState({ email: "", password: "" });
+  let user = {email: "", password: ""}
   const navigate = useNavigate();
+  const { login, setLogin } = useLogin();
+
+  const getlogin = async () => {
+    const {loggedin, user} = await CheckLogin()
+    if (loggedin != login) {
+      setLogin(loggedin)
+    }
+  }
+  
+   useEffect(() => {
+    getlogin()
+   })
 
   const getInput = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    user[e.target.name] = e.target.value
   };
 
   const loginUser = async () => {
     const { email, password } = user;
     if (email.trim() === "" || password.trim() === "") {
-      toast.error("empty fields")
+      toast.error("empty fields");
       return;
     }
     if (!email.includes("@")) {
-      toast.error("not a proper email")
+      toast.error("not a proper email");
       return;
     }
 
     try {
-      await axios
-        .post("http://localhost:5001/users/login", user, {
-          withCredentials: true,
-        })
+      await axios.post("http://localhost:5001/users/login", user, { withCredentials: true })
         .then((res) => {
-          setUser({ email: "", password: "" });
+          user = {}
           toast.success("Login successful");
+          setLogin(true);
           navigate("/users/dashboard");
         })
         .catch((err) => {
           toast.error(err.response.data.message);
         });
     } catch (err) {
-      console.log(err.message);
+      toast.error("login failed, please try again!!");
     }
   };
 
-  return (
+  return login ? (
+    <Error message="already logged in" />
+  ) : (
     <>
       <div className="py-16">
         <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto  max-w-xs md:max-w-sm">
@@ -57,7 +72,6 @@ function Login() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="email"
                 name="email"
-                value={user.email}
                 onChange={getInput}
               />
             </div>
@@ -66,7 +80,7 @@ function Login() {
                 <label className="block text-gray-700 text-sm font-bold mb-2">
                   Password
                 </label>
-                <Link to="/register" className="text-xs text-gray-500">
+                <Link to="" className="text-xs text-gray-500">
                   Forget Password?
                 </Link>
               </div>
@@ -74,7 +88,6 @@ function Login() {
                 className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                 type="password"
                 name="password"
-                value={user.password}
                 onChange={getInput}
               />
             </div>

@@ -138,6 +138,9 @@ const logoutUser = asyncExe(async (req, res) => {
 
 const getCurrentUser = asyncExe(async (req, res) => {
     
+    if (req.user.candidateId) {
+        await req.user.populate("candidateId")
+    }
     return res.status(200).json(new ApiResponse(200, req.user, "user fetched successfully"))
 })
 

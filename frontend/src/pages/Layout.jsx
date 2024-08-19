@@ -1,36 +1,40 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import CheckLogin from "../hooks/CheckLogin.js";
+import { LoginProvider } from "../context/login.context.js";
 
 function Layout() {
-  const list = (
-    <>
-      <div className="hidden md:block md:bg-base-200 md:h-screen md:col-span-1">
-        <div className="collapse collapse-plus text-lg rounded-none">
-          <input type="radio" name="my-accordion-3" defaultChecked />
-          <div className="collapse-title">
-            Dashboards
-          </div>
-          <div className="collapse-content mt-[-10px]">
-            <p className="mx-3 mb-3 cursor-pointer"><Link to="/users/dashboard">User</Link></p>
-            <p className="mx-3 mb-3 cursor-pointer"><Link to="/candidates/dashboard">Candidate</Link></p>
-            <p className="mx-3 mb-3 cursor-pointer"><Link to="/admins/dashboard">Admin</Link></p>
-          </div>
-        </div>
-      </div>
-      
-    </>
-  );
+  const [login, setLogin] = useState(false);
+  const location = useLocation();
+
+  const getUser = async () => {
+    const { loggedin, user } = await CheckLogin();
+    if (loggedin != login) {
+      setLogin(loggedin);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [login]);
 
   return (
     <>
-      <Navbar />
-      <div className="grid grid-cols-5">
-        {list}
-        <div className="md:col-span-4 col-span-5">
-          <Outlet />
-        </div>
-      </div>
+      <LoginProvider value={{ login, setLogin }}>
+        <Navbar />
+        {location.pathname == "/" ? (
+          <h1 className="h-screen flex items-center justify-center from-neutral-600 font-extrabold text-5xl">Welcome</h1>
+        ) : (
+          <div className="lg:grid lg:grid-cols-10">
+            <div className="md:col-span-1"></div>
+            <div className="md:col-span-8">
+              <Outlet />
+            </div>
+            <div className="md:col-span-1"></div>
+          </div>
+        )}
+      </LoginProvider>
     </>
   );
 }

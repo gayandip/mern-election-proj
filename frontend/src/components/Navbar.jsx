@@ -1,94 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom"
-import axios from "axios"
+import React from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useLogin } from "../context/login.context.js";
+import Navitem from "./Navitem.jsx";
 
 function Navbar() {
-  const [user, setUser] = useState()
-  const [loginLogout, setLoginLogout] = useState(<Link  to="users/login" className="btn">Login</Link>)
-  const navigate = useNavigate()
+  const { login, setLogin } = useLogin();
 
   const logout = async () => {
     try {
       await axios.post("http://localhost:5001/users/logout", {}, { withCredentials: true })
-      .then((res) => {
-        if (res.status == 200) {
-          setLoginLogout(<Link  to="/login" className="btn">Login</Link>)
-          toast.success("Logout success")
-          navigate("/")
-        }
-      })
-      .catch((err) => {
-        toast.error("logout failed")
-      })
+        .then((res) => {
+          if (res.status == 200) {
+            toast.success("Logout success");
+            setLogin(false);
+          }
+        })
+        .catch((err) => {
+          toast.error("logout failed");
+        });
     } catch (err) {
-      toast.error("logout failed")
+      toast.error("logout failed");
     }
-  }
+  };
 
-  const getUser = async () => {
-    // try {
-    //   await axios.get("http://localhost:5001/users/get/current/loggedin", { withCredentials: true })
-    //   .then((res) => {
-    //     if (res.status == 200) {
-    //       setUser(res.data)
-    //       setLoginLogout(<Link  to="/" onClick={logout} className="btn">Logout</Link>)
-    //     }
-    //   })
-    // } catch (err) {
-    //   console.log(err.message);
-    // }
-  }
-
-  useEffect(() => {
-    getUser()
-  }, [user, loginLogout])
-  
   const navList = (
     <>
       <li>
-        <NavLink to="/login" className={({isActive}) => `${isActive ? "text-white font-semibold": ""}`}>
-          Home
-        </NavLink>
+        <Navitem text="Home" link="/" />
       </li>
       <li>
-      <NavLink to="/result" className={({isActive}) => `${isActive ? "text-white font-semibold": ""}`}>
-          Voting Result
-        </NavLink>
-      </li>
-      <li>
-      <NavLink to="/validate/:card" className={({isActive}) => `${isActive ? "text-white font-semibold": ""}`}>
-          Validate Card
-        </NavLink>
+        <Navitem text="Dashboard" link="/users/dashboard" />
       </li>
     </>
   );
-
-  const extraMobileList = (
-    <>
-      <div className="collapse collapse-plus text-sm rounded-none">
-          <input type="radio" name="my-accordion-3"/>
-          <div className="collapse-title">
-            Dashboards
-          </div>
-          <div className="collapse-content mt-[-10px]">
-            <p className="mx-3 mb-3 cursor-pointer"><Link to="/users/dashboard">User</Link></p>
-            <p className="mx-3 mb-3 cursor-pointer"><Link to="/candidates/dashboard">Candidate</Link></p>
-            <p className="mx-3 mb-3 cursor-pointer"><Link to="/admins/dashboard">Admin</Link></p>
-          </div>
-        </div>
-    </>
-  )
 
   return (
     <>
       <div className="navbar bg-base-100 shadow-md sticky z-50 top-0">
         <div className="navbar-start">
           <div className="dropdown">
-          <div className="drawer">
-          <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-          <div className="drawer-content">
-            <label htmlFor="my-drawer">
             <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -105,16 +57,13 @@ function Navbar() {
                 />
               </svg>
             </div>
-            </label>
-            </div>
 
-            <div className="drawer-side">
-    <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-    <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-      {navList}{extraMobileList}
-    </ul>
-  </div>
-  </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 z-[1] mt-3 w-52 p-2 shadow"
+            >
+              {navList}
+            </ul>
           </div>
           <p className="m-2 p-2 text-xl md:text-2xl font-bold">ElectionBits</p>
         </div>
@@ -122,7 +71,15 @@ function Navbar() {
           <ul className="menu menu-horizontal px-1">{navList}</ul>
         </div>
         <div className="navbar-end mr-4">
-          {loginLogout}
+          {login ? (
+            <Link to="/" onClick={logout} className="btn">
+              Logout
+            </Link>
+          ) : (
+            <Link to="users/login" className="btn">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </>

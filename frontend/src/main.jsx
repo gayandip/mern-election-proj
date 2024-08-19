@@ -4,7 +4,6 @@ import "./index.css";
 import { createRoutesFromElements, Route } from "react-router-dom";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
-import Home from "./pages/Home";
 import Register from "./pages/user/Register";
 import Login from "./pages/user/Login";
 import CreateCard from "./pages/user/CreateCard";
@@ -16,8 +15,6 @@ import AdminDashboard from "./pages/admin/Dashboard";
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-
-      <Route path="home" element={<Home />} />
 
       <Route path="users">
         <Route path="dashboard" element={<UserDashboard/>} />

@@ -1,68 +1,66 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Error from "../others/Error";
+import { useLogin } from "../../context/login.context";
+import CheckLogin from "../../hooks/CheckLogin";
 
 function Dashboard() {
-  const [user, setUser] = useState(false);
-  const navigate = useNavigate();
 
-  const getUser = async () => {
-    // try {
-    //   await axios
-    //     .get("http://localhost:5001/users/get/current/loggedin", {
-    //       withCredentials: true,
-    //     })
-    //     .then((res) => {
-    //       if (res.status == 200) {
-    //         setUser(true);
-    //       } else setUser(false);
-    //     })
-    //     .catch((err) => {
-    //       setUser(false);
-    //       navigate("/users/login");
-    //     });
-    // } catch (err) {
-    //   console.log(err.message);
-    // }
-    setUser(true)
-  };
+  const {login, setLogin} = useLogin()
+   
+  const getlogin = async () => {
+    const {loggedin, user} = await CheckLogin()
+    if (loggedin != login) {
+      setLogin(loggedin)
+    }
+  }
 
   useEffect(() => {
-    console.log("called");
+    getlogin()
+  })
 
-    getUser();
-  }, [user]);
-
-  return user == true ? (
+  return login ? (
     <>
       <div className="h-screen">
         <div className="m-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Link className="btn btn-neutral m-5">View Profile</Link>
-          <Link className="btn btn-neutral m-5">View Card</Link>
+          <Link to="/users/profile" className="btn btn-neutral m-5">View Profile</Link>
+          <Link to="/users/viewcard" className="btn btn-neutral m-5">View Card</Link>
           <Link to="/users/createcard" className="btn btn-neutral m-5">
             Create Card
           </Link>
           <Link to="/candidates/register" className="btn btn-neutral m-5">
             Register as a Candidate
           </Link>
-          <Link to="" className="btn btn-neutral m-5">
+          <Link to="/admins/register" className="btn btn-neutral m-5">
             Request Admin Access
           </Link>
           <Link to="" className="btn btn-neutral m-5">
             Cast vote
           </Link>
           <Link to="" className="btn btn-neutral m-5">
-            Get Result
+            Get result
           </Link>
         </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-7">
+        <div>
+        <h2 className="text-center m-4">Candidate section</h2>
+        <div className="m-auto flex justify-center">
+        <Link to="/candidates/dashboard" className="btn btn-neutral m-5">Candidate Dashboard</Link>
+        </div>
+        </div>
+
+        <div>
+        <h2 className="text-center m-4">Admin section</h2>
+        <div className="m-auto flex justify-center">
+        <Link to="/admins/dashboard" className="btn btn-neutral m-5">Admin Dashboard</Link>
+        </div>
+        </div>
+        </div>
+
       </div>
     </>
-  ) : (
-    <>
-      <h2>404</h2>
-      <h4>Not found!!!</h4>
-    </>
-  );
+  ) : (<Error message="please login" />);
 }
 
 export default Dashboard;
