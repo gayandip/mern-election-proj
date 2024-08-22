@@ -6,12 +6,16 @@ import CheckLogin from "../../hooks/CheckLogin";
 
 function Dashboard() {
 
-  const {login, setLogin} = useLogin()
+  const {login, setLogin, userData, setUserData} = useLogin()
    
   const getlogin = async () => {
     const {loggedin, user} = await CheckLogin()
     if (loggedin != login) {
       setLogin(loggedin)
+    }
+
+    if (loggedin && userData.email != user.email) {
+      setUserData(user);
     }
   }
 
@@ -43,14 +47,14 @@ function Dashboard() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-7">
-        <div>
+        <div className={userData.candidateId ? "" : "hidden"}>
         <h2 className="text-center m-4">Candidate section</h2>
         <div className="m-auto flex justify-center">
         <Link to="/candidates/dashboard" className="btn btn-neutral m-5">Candidate Dashboard</Link>
         </div>
         </div>
 
-        <div>
+        <div className={userData.adminId ? "" : "hidden"}>
         <h2 className="text-center m-4">Admin section</h2>
         <div className="m-auto flex justify-center">
         <Link to="/admins/dashboard" className="btn btn-neutral m-5">Admin Dashboard</Link>

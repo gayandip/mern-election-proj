@@ -7,7 +7,7 @@ import Error from "../others/Error";
 import CheckLogin from "../../hooks/CheckLogin";
 
 function CreateCard() {
-  // age verification remaining
+
   let card = {
     name: "",
     add: "",
@@ -22,7 +22,7 @@ function CreateCard() {
   const [existingCard, setExistingCard] = useState(false)
   const navigate = useNavigate();
 
-  const { login, setLogin } = useLogin();
+  const { login, setLogin, setUserData } = useLogin();
 
   const getlogin = async () => {
     const { loggedin, user } = await CheckLogin();
@@ -30,7 +30,7 @@ function CreateCard() {
       setLogin(loggedin);
     }
     
-    if (user.cardId) {
+    if (user.cardId  && (existingCard == false)) {
       setExistingCard(true)
     }
   };
@@ -74,6 +74,17 @@ function CreateCard() {
       return;
     }
 
+    {
+      const birth = new Date(card.dob)
+      const now = new  Date(Date.now())
+      const age = (now.getTime() - birth.getTime())/(1000*60*60*24*365.25)
+
+      if (age<18) {
+        toast.error("you are not 18")
+        return
+      }
+    }
+
     try {
       await axios
         .post("http://localhost:5001/users/createcard", card, {
@@ -81,6 +92,7 @@ function CreateCard() {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .then((res) => {
+          setUserData(res.data.data)
           card = {};
           toast.success("card created, verification under process");
           navigate("/users/dashboard");
@@ -203,7 +215,7 @@ function CreateCard() {
                   className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
                   type="file"
                   name="image"
-                  accept="image/*"
+                  accept="image/jpg, image/jpeg"
                   required
                   onChange={getInput}
                 />

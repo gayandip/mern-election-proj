@@ -14,7 +14,7 @@ function Dashboard() {
       setLogin(loggedin);
     }
 
-    if (user.adminId) {
+    if (user.adminId && (existingAdmin == false)) {
       setExistingAdmin(true)
     }
   };

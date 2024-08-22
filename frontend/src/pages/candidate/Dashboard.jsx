@@ -15,7 +15,7 @@ function Dashboard() {
       setLogin(loggedin);
     }
 
-    if (user.candidateId) {
+    if (user.candidateId && (existingCandidate == false)) {
       setEeistingCandidate(true)
     }
   };

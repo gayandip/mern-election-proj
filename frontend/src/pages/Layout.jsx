@@ -6,22 +6,26 @@ import { LoginProvider } from "../context/login.context.js";
 
 function Layout() {
   const [login, setLogin] = useState(false);
+  const [userData, setUserData] = useState({email: ""});
   const location = useLocation();
 
   const getUser = async () => {
-    const { loggedin, user } = await CheckLogin();
+    const { loggedin, user, err } = await CheckLogin();
     if (loggedin != login) {
       setLogin(loggedin);
+    }
+    if (loggedin && (userData.email != user.email)) {
+      setUserData(user)
     }
   };
 
   useEffect(() => {
     getUser();
-  }, [login]);
+  }, [login, userData]);
 
   return (
     <>
-      <LoginProvider value={{ login, setLogin }}>
+      <LoginProvider value={{ login, setLogin, userData, setUserData }}>
         <Navbar />
         {location.pathname == "/" ? (
           <h1 className="h-screen flex items-center justify-center from-neutral-600 font-extrabold text-5xl">Welcome</h1>

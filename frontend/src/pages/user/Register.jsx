@@ -30,7 +30,6 @@ function Register() {
 
   const registerUser = async () => {
     const { email, password } = userData;
-    console.log(userData);
     
     if (email.trim() === "" || password.trim() === "") {
       toast.error("empty fields");

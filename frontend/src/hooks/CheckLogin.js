@@ -2,7 +2,8 @@ import axios from "axios";
 
 const CheckLogin = async () => {
   let val = false;
-  let user = {}
+  let user = {email: ""}
+  let err = false;
   try {
     await axios.get("http://localhost:5001/users/get/current/loggedin", { withCredentials: true })
       .then((res) => {
@@ -11,14 +12,14 @@ const CheckLogin = async () => {
           user = res.data.data
         }
       })
-      .catch((err) => {
-        val = false;
+      .catch((error) => {
+        err = true;
       });
-  } catch (err) {
-    val = false;
+  } catch (error) {
+    err = true
   }
 
-  return {loggedin: val, user}
+  return {loggedin: val, user, err}
 };
 
 export default CheckLogin;

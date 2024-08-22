@@ -11,6 +11,8 @@ import RegisterCandidate from "./pages/candidate/Register";
 import UserDashboard from "./pages/user/Dashboard";
 import CandidateDashboard from "./pages/candidate/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
+import Profile from "./pages/user/Profile";
+import Card from "./components/Card";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +23,8 @@ const routes = createBrowserRouter(
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="createcard" element={<CreateCard />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="viewcard" element={<Card />} />
       </Route>
 
       <Route path="candidates">

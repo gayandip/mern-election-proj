@@ -2,7 +2,9 @@ import { createContext, useContext } from "react";
 
 const LoginContext = createContext({
     login: false,
-    setLogin: () => {}
+    setLogin: () => {},
+    userData: {},
+    setUserData: () => {}
 })
 
 const LoginProvider = LoginContext.Provider

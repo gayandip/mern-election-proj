@@ -76,9 +76,16 @@ function Navbar() {
               Logout
             </Link>
           ) : (
+            <>
+            <div className="grid grid-cols-2 gap-4">
             <Link to="users/login" className="btn">
               Login
             </Link>
+            <Link to="users/register" className="btn">
+              Register
+            </Link>
+            </div>
+            </>
           )}
         </div>
       </div>
