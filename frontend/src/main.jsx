@@ -13,7 +13,6 @@ import CandidateDashboard from "./pages/candidate/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Profile from "./pages/user/Profile";
 import Card from "./components/Card";
-
 const routes = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
