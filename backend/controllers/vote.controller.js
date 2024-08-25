@@ -1,7 +1,9 @@
 import { Candidate } from "../models/candidate.model.js";
 import { ApiResponse } from "../utils/apiResponse.js";
+import { apiError } from "../utils/apiError.js"
 import { asyncExe } from "../utils/asyncExecute.js";
 import { Vote } from "../models/vote.model.js"
+import mongoose from "mongoose";
 
 
 const getCandidatesToVote = asyncExe(async (req,res) => {
@@ -40,10 +42,10 @@ const castVote = asyncExe(async (req, res) => {
 
     const pastHistory = await Vote.find(
         {
-            $and: [{voter}, {electionType:type}]
+            $and: [{voter: voter}, {electionType:type}]
         }
     )
-    if (pastHistory) {
+    if (pastHistory.length > 0) {
         throw new apiError(403, "you already casted your vote")
     }
 
@@ -52,7 +54,7 @@ const castVote = asyncExe(async (req, res) => {
         votedTo: votingTo,
         electionType: type
     })
-    vote.save()
+    await vote.save()
 
     const castedVote = await Vote.findById(vote._id)
     if (!castedVote) {

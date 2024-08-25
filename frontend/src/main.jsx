@@ -13,6 +13,9 @@ import CandidateDashboard from "./pages/candidate/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Profile from "./pages/user/Profile";
 import Card from "./components/Card";
+import RegisterAdmin from "./pages/admin/Register"
+import CardTable from "./components/CardTable";
+import Castvote from "./pages/user/Castvote";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +28,7 @@ const routes = createBrowserRouter(
         <Route path="createcard" element={<CreateCard />} />
         <Route path="profile" element={<Profile />} />
         <Route path="viewcard" element={<Card />} />
+        <Route path="view/candidates" element={<Castvote />} />
       </Route>
 
       <Route path="candidates">
@@ -34,6 +38,11 @@ const routes = createBrowserRouter(
 
       <Route path="admins">
         <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="register" element={<RegisterAdmin />} />
+        
+        <Route path="view">
+          <Route path="cards" element={<CardTable />} />
+        </Route>
       </Route>
 
     </Route>

@@ -38,7 +38,7 @@ function Dashboard() {
           <Link to="/admins/register" className="btn btn-neutral m-5">
             Request Admin Access
           </Link>
-          <Link to="" className="btn btn-neutral m-5">
+          <Link to="/users/view/candidates" className="btn btn-neutral m-5">
             Cast vote
           </Link>
           <Link to="" className="btn btn-neutral m-5">

@@ -56,10 +56,10 @@ const cardSchema = new Schema(
 cardSchema.pre("save", function(next) {
     if(!(this.status  == "verified")) return next();
 
-    str =""
+    let str =""
     function gen() {
-        str1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        str2 = "123456789"
+        let str1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        let str2 = "123456789"
         
         for (let i = 0; i < 7; i++) {
              if (i<3) {

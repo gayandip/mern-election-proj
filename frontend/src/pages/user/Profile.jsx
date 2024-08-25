@@ -40,9 +40,15 @@ function Profile() {
               {userData[`${entity}`]?.status}
             </span>
           </h2>
-          <Link to={link} className="ml-3 text-white">
-            View
-          </Link>
+          {entity == "cardId" ? (
+            <Link to={link} className="ml-3 text-white">
+              View
+            </Link>
+          ) : (
+            <Link to={link} className="ml-3 text-white">
+              View Dashboard
+            </Link>
+          )}
         </div>
       </>
     );
@@ -65,7 +71,9 @@ function Profile() {
           Update Email
         </Link>
         <div>{textComponent("cardId", "Card:", "/users/viewcard")}</div>
-        <div>{textComponent("candidateId", "Candidate:", "/candidates/dashboard")}</div>
+        <div>
+          {textComponent("candidateId", "Candidate:", "/candidates/dashboard")}
+        </div>
         <div>{textComponent("adminId", "Admin:", "/admins/dashboard")}</div>
       </div>
     </div>

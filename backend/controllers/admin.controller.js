@@ -44,7 +44,7 @@ const registerAdmin = asyncExe(async (req,res) => {
         {
             new: true
         }
-    ).select("-password -refreshToken").populate("adminId")
+    ).select("-password -refreshToken")
 
     res.status(201).json(
         new ApiResponse(200, user, "admin created successfully")

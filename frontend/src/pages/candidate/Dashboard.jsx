@@ -6,7 +6,7 @@ import Error from "../others/Error";
 
 function Dashboard() {
   const [existingCandidate, setEeistingCandidate] = useState(false);
-  const { login, setLogin } = useLogin();
+  const { login, setLogin, userData, setUserData } = useLogin();
 
   const getlogin = async () => {
     const { loggedin, user } = await CheckLogin();
@@ -17,6 +17,10 @@ function Dashboard() {
 
     if (user.candidateId && (existingCandidate == false)) {
       setEeistingCandidate(true)
+    }
+
+    if (loggedin && userData.email != user.email) {
+      setUserData(user);
     }
   };
 
