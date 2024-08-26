@@ -10,7 +10,8 @@ const voteSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "Candidate"
         },
-        electionType: String
+        electionType: String,
+        constituency: String
     }, 
     
     {

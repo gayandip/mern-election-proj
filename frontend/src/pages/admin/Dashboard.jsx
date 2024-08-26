@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useLogin } from "../../context/login.context";
 import CheckLogin from "../../hooks/CheckLogin";
 import Error from "../others/Error";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function Dashboard() {
   const [existingAdmin, setExistingAdmin] = useState(false);
@@ -43,6 +45,29 @@ function Dashboard() {
     return <p>You can organise an election and count votes</p>;
   };
 
+  const count = async () => {
+    try {
+      await axios
+        .post(
+          "http://localhost:5001/admins/count/votes/gce",
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            toast.success("success");
+          } else toast.error("failed");
+        })
+        .catch((err) => {
+          toast.error("failed");
+        });
+    } catch (err) {
+      toast.error("failed, try again");
+    }
+  };
+
   // const getActions = () => {
   //   if (!(userData.adminId.status == "verified")) {
   //     return
@@ -71,14 +96,16 @@ function Dashboard() {
   const getActions = () => {
     return (
       <>
-      <Link to="/admins/view/cards" className="btn btn-neutral m-5">View Cards</Link>
-      <Link className="btn btn-neutral m-5">View Candidates</Link>
+        <Link to="/admins/view/cards" className="btn btn-neutral m-5">
+          View Cards
+        </Link>
+        <Link className="btn btn-neutral m-5">View Candidates</Link>
         <Link to="/admins/view" className="btn btn-neutral m-5">
           View Admins
         </Link>
-        <Link to="" className="btn btn-neutral m-5">
+        <button onClick={count} className="btn btn-neutral m-5">
           Count Votes
-        </Link>
+        </button>
       </>
     );
   };

@@ -4,6 +4,7 @@ import { apiError } from "../utils/apiError.js"
 import { asyncExe } from "../utils/asyncExecute.js";
 import { Vote } from "../models/vote.model.js"
 import mongoose from "mongoose";
+import { Votecount } from "../models/info.models.js";
 
 
 const getCandidatesToVote = asyncExe(async (req,res) => {
@@ -37,7 +38,7 @@ const castVote = asyncExe(async (req, res) => {
         throw new apiError(403, "your card is not verified")
     }
 
-    const {type, votingTo} = req.body
+    const {type, votingTo, constituency} = req.body
     const voter = req.user.cardId._id
 
     const pastHistory = await Vote.find(
@@ -52,7 +53,8 @@ const castVote = asyncExe(async (req, res) => {
     const vote = await Vote.create({
         voter: voter,
         votedTo: votingTo,
-        electionType: type
+        electionType: type,
+        constituency: constituency
     })
     await vote.save()
 
@@ -67,7 +69,13 @@ const castVote = asyncExe(async (req, res) => {
 })
 
 const getResult = asyncExe(async (req, res) => {
-    // implement
+    const election = req.params.election
+    const result = await Votecount.find({electionType: election})
+    if (result.length == 0) {
+        return res.status(401).json({message: "no result found"})
+    }
+
+    return res.status(200).json({message: "success", result: result})
 })
 
 export{

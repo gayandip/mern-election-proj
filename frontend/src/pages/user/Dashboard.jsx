@@ -41,7 +41,7 @@ function Dashboard() {
           <Link to="/users/view/candidates" className="btn btn-neutral m-5">
             Cast vote
           </Link>
-          <Link to="" className="btn btn-neutral m-5">
+          <Link to="/users/view/result" className="btn btn-neutral m-5">
             Get result
           </Link>
         </div>

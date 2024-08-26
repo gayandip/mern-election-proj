@@ -16,6 +16,7 @@ import Card from "./components/Card";
 import RegisterAdmin from "./pages/admin/Register"
 import CardTable from "./components/CardTable";
 import Castvote from "./pages/user/Castvote";
+import ResultTable from "./components/ResultTable";
 
 const routes = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +30,7 @@ const routes = createBrowserRouter(
         <Route path="profile" element={<Profile />} />
         <Route path="viewcard" element={<Card />} />
         <Route path="view/candidates" element={<Castvote />} />
+        <Route path="view/result" element={<ResultTable />} />
       </Route>
 
       <Route path="candidates">

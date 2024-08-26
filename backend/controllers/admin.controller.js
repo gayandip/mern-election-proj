@@ -6,6 +6,7 @@ import { Candidate } from "../models/candidate.model.js";
 import { apiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncExe } from "../utils/asyncExecute.js";
+import { Votecount } from "../models/info.models.js";
 
 const registerAdmin = asyncExe(async (req,res) => {
     const {name, id} = req.body
@@ -224,7 +225,12 @@ const countVotes = asyncExe(async (req, res) => {
         throw new apiError(403, "election type or name required")
     }
 
-    const a = Vote.aggregate(
+    const existingrecord = await Votecount.find({electionType: election})
+    if (existingrecord.length > 0) {
+        return res.status(401).json({message: "already counted"})
+    }
+
+    const counted = await Vote.aggregate(
         [
             {
               $match: {
@@ -233,16 +239,56 @@ const countVotes = asyncExe(async (req, res) => {
             },
             {
               $group: {
-                _id: "$_id",
-                totalVotes: { $sum:1 }
+                _id: "$constituency",
+                candidates: {
+                  $push: "$votedTo"
+                },
+                totalvotes: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $unwind: "$candidates"
+            },
+            {
+              $group: {
+                _id: {
+                    constituency: "$_id",
+                  candidates: "$candidates"
+                },
+                count: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $group: {
+                _id: "$_id.constituency",
+                candidates: {
+                  $push: {
+                    candidate: "$_id.candidates",
+                    votes: "$count"
+                  }
+                },
+                totalcandidates: {$sum: 1}
               }
             }
-            
-        ]
+          ]
     )
 
-    console.log(a);
-    //implement
+    const created = await Votecount.create(
+        {
+            electionType: election,
+            details: counted
+        }
+    )
+
+    if (!created._id) {
+        return res.status(502).json({message:"failed"});
+    }
+
+    return res.status(200).json({message:"counted success"})
 
 })
 

@@ -33,6 +33,9 @@ function Navbar() {
       <li>
         <Navitem text="Dashboard" link="/users/dashboard" />
       </li>
+      <li>
+        <Navitem text="Result" link="/users/view/result" />
+      </li>
     </>
   );
 

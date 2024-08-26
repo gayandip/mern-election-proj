@@ -19,7 +19,7 @@ function CandidateCard({
       await axios
         .post(
           "http://localhost:5001/users/vote/cast",
-          { type: "gce", votingTo: id },
+          { type: "gce", votingTo: id, constituency: conName },
           { withCredentials: true }
         )
         .then((res) => {
@@ -35,12 +35,13 @@ function CandidateCard({
       toast.error("failed, try again");
     }
   };
+  const src = `http://localhost:5001/${String(image).replace(/\\/g, "/").replace("public/", "")}`;
   return (
     <>
-      <div className="card bg-base-100 w-80 shadow-xl outline-dashed outline-lime-300">
+      <div className="card bg-base-100 w-80 shadow-xl">
         <div className="avatar m-auto">
           <div className="w-32 rounded">
-            <img src={image} />
+            <img src={src} />
           </div>
         </div>
         <div className="card-body">

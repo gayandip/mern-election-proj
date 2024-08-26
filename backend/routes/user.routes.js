@@ -45,6 +45,6 @@ userRouter.route("/candidate/register").post(
 userRouter.route("/request/adminaccess").post(verifyJWT, registerAdmin)
 userRouter.route("/vote/get/candidates/:constituency").get(verifyJWT, getCandidatesToVote)
 userRouter.route("/vote/cast").post(verifyJWT, castVote)
-userRouter.route("/get/result").get(getResult)
+userRouter.route("/get/result/:election").get(getResult)
 
 export {userRouter}
